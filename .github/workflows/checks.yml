@@ -19,7 +19,11 @@ jobs:
         with:
           node-version: 23.x
           cache: 'npm'
-          
+
+      - name: Show npm debug log
+        if: failure()
+        run: cat /home/runner/.npm/_logs/*.log || true
+    
       - name: Install dependencies
         run: npm install --prefer-offline
 
