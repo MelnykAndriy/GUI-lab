@@ -68,13 +68,13 @@ const handleTokenRefresh = async (): Promise<string | null> => {
   try {
     console.log("Attempting to refresh access token...");
     const response = await refreshToken(refreshTokenValue);
-    
+
     if (response.access) {
       updateTokensInStorage(response.access, response.refresh);
       console.log("Access token refreshed successfully");
       return response.access;
     }
-    
+
     return null;
   } catch (error) {
     console.error("Token refresh failed:", error);
@@ -90,10 +90,10 @@ export const apiRequest = async (
   endpoint: string,
   options: ApiOptions,
   retryCount = 0,
-  maxRetries = 1 // default: 1 retry (1 refresh attempt)
+  maxRetries = 1, // default: 1 retry (1 refresh attempt)
 ) => {
   const token = getAuthToken();
-  let headers: Record<string, string> = {
+  const headers: Record<string, string> = {
     ...options.headers,
   };
 
@@ -116,11 +116,17 @@ export const apiRequest = async (
   };
 
   if (options.body) {
-    config.body = options.body instanceof FormData ? options.body : JSON.stringify(options.body);
+    config.body =
+      options.body instanceof FormData
+        ? options.body
+        : JSON.stringify(options.body);
   }
 
   try {
-    console.log(`Making ${options.method} request to ${endpoint} with auth:`, !!token);
+    console.log(
+      `Making ${options.method} request to ${endpoint} with auth:`,
+      !!token,
+    );
     console.log("Full URL:", `${API_BASE_URL}${endpoint}`);
 
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
@@ -154,7 +160,9 @@ export const apiRequest = async (
         errorData = { detail: errorText || "Unknown error" };
       }
       console.error("API error:", errorData);
-      throw new Error(errorData.detail || errorData.message || "Something went wrong");
+      throw new Error(
+        errorData.detail || errorData.message || "Something went wrong",
+      );
     }
 
     const contentType = response.headers.get("content-type");
