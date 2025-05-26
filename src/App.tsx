@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,7 +14,11 @@ import Chat from "./pages/Chat";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthenticated, setUser, logoutUser } from "./features/user/userSlice";
+import {
+  selectIsAuthenticated,
+  setUser,
+  logoutUser,
+} from "./features/user/userSlice";
 
 const queryClient = new QueryClient();
 
@@ -66,7 +69,10 @@ const App = () => {
                     <Navigate to="/chat" replace />
                   ) : (
                     <>
-                      <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                      <Navbar
+                        isLoggedIn={isAuthenticated}
+                        onLogout={handleLogout}
+                      />
                       <div className="flex-1">
                         <Index />
                       </div>
@@ -80,13 +86,13 @@ const App = () => {
                 path="/profile"
                 element={
                   <AuthRoute>
-                    <AppLayout onLogout={handleLogout} userData={userData} />                  
+                    <AppLayout onLogout={handleLogout} userData={userData} />
                   </AuthRoute>
                 }
               >
                 <Route index element={<Profile />} />
               </Route>
-              
+
               <Route
                 path="/chat"
                 element={
@@ -97,14 +103,17 @@ const App = () => {
               >
                 <Route index element={<Chat />} />
               </Route>
-              
+
               {/* Public routes */}
               <Route
                 path="/login"
                 element={
                   <PublicRoute>
                     <>
-                      <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                      <Navbar
+                        isLoggedIn={isAuthenticated}
+                        onLogout={handleLogout}
+                      />
                       <div className="flex-1">
                         <Login />
                       </div>
@@ -112,13 +121,16 @@ const App = () => {
                   </PublicRoute>
                 }
               />
-              
+
               <Route
                 path="/register"
                 element={
                   <PublicRoute>
                     <>
-                      <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                      <Navbar
+                        isLoggedIn={isAuthenticated}
+                        onLogout={handleLogout}
+                      />
                       <div className="flex-1">
                         <Register />
                       </div>
@@ -126,25 +138,31 @@ const App = () => {
                   </PublicRoute>
                 }
               />
-              
+
               <Route
                 path="/about"
                 element={
                   <>
-                    <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                    <Navbar
+                      isLoggedIn={isAuthenticated}
+                      onLogout={handleLogout}
+                    />
                     <div className="flex-1">
                       <About />
                     </div>
                   </>
                 }
               />
-              
+
               {/* Catch-all route */}
               <Route
                 path="*"
                 element={
                   <>
-                    <Navbar isLoggedIn={isAuthenticated} onLogout={handleLogout} />
+                    <Navbar
+                      isLoggedIn={isAuthenticated}
+                      onLogout={handleLogout}
+                    />
                     <div className="flex-1">
                       <NotFound />
                     </div>

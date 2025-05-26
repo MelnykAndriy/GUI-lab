@@ -32,7 +32,10 @@ const Chat: React.FC = () => {
       dispatch(fetchRecentChats());
     };
 
-    const intervalId = setInterval(pollRecentChats, RECENT_CHATS_POLLING_INTERVAL);
+    const intervalId = setInterval(
+      pollRecentChats,
+      RECENT_CHATS_POLLING_INTERVAL,
+    );
 
     return () => clearInterval(intervalId);
   }, [currentUser, dispatch]);

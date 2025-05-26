@@ -32,7 +32,7 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
       }
       setIsLoading(true);
       try {
-        if (searchTerm.includes('@')) {
+        if (searchTerm.includes("@")) {
           const apiUser = await getUserByEmail(searchTerm);
           if (apiUser && apiUser.id !== currentUserId) {
             setSearchResults([apiUser]);
@@ -40,9 +40,12 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
             setSearchResults([]);
           }
         } else {
-          const filteredUsers = recentChats.filter(user =>
-            user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.profile.name.toLowerCase().includes(searchTerm.toLowerCase())
+          const filteredUsers = recentChats.filter(
+            (user) =>
+              user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user.profile.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()),
           );
           setSearchResults(filteredUsers);
         }
@@ -77,21 +80,31 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
           <div className="space-y-1">
             <h3 className="text-sm font-medium px-2 py-1">Search Results</h3>
             {isLoading ? (
-              <p className="text-sm text-muted-foreground px-2 py-1">Searching...</p>
+              <p className="text-sm text-muted-foreground px-2 py-1">
+                Searching...
+              </p>
             ) : searchResults.length === 0 ? (
-              <p className="text-sm text-muted-foreground px-2 py-1">No users found</p>
+              <p className="text-sm text-muted-foreground px-2 py-1">
+                No users found
+              </p>
             ) : (
-              searchResults.map(user => (
-                <Button 
+              searchResults.map((user) => (
+                <Button
                   key={user.id}
-                  variant="ghost" 
+                  variant="ghost"
                   className="w-full justify-start px-2 py-6"
                   onClick={() => onSelectUser(user)}
                 >
-                  <UserAvatar user={{ profile: user.profile, email: user.email }} size="sm" className="mr-2" />
+                  <UserAvatar
+                    user={{ profile: user.profile, email: user.email }}
+                    size="sm"
+                    className="mr-2"
+                  />
                   <div className="text-left">
                     <p className="font-medium">{user.profile.name}</p>
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {user.email}
+                    </p>
                   </div>
                 </Button>
               ))
@@ -103,30 +116,42 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
             {recentChats.length === 0 ? (
               <div className="text-center py-8">
                 <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground/50" />
-                <p className="text-sm text-muted-foreground mt-2">No recent chats</p>
-                <p className="text-xs text-muted-foreground">Search for a user to start chatting</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  No recent chats
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Search for a user to start chatting
+                </p>
               </div>
             ) : (
-              recentChats.map(user => (
-                <Button 
+              recentChats.map((user) => (
+                <Button
                   key={user.id}
-                  variant="ghost" 
+                  variant="ghost"
                   className="w-full justify-start px-2 py-6"
                   onClick={() => onSelectUser(user)}
                 >
-                  <UserAvatar user={{ profile: user.profile, email: user.email }} size="sm" className="mr-2" />
+                  <UserAvatar
+                    user={{ profile: user.profile, email: user.email }}
+                    size="sm"
+                    className="mr-2"
+                  />
                   <div className="text-left flex-1">
                     <div className="flex justify-between items-center">
                       <p className="font-medium">{user.profile.name}</p>
                       {user.lastMessage && (
                         <span className="text-xs text-muted-foreground">
-                          {formatRecentChatTimestamp(user.lastMessage.timestamp)}
+                          {formatRecentChatTimestamp(
+                            user.lastMessage.timestamp,
+                          )}
                         </span>
                       )}
                     </div>
                     <div className="flex justify-between items-center">
                       <p className="text-xs text-muted-foreground truncate max-w-[180px]">
-                        {user.lastMessage ? user.lastMessage.content : user.email}
+                        {user.lastMessage
+                          ? user.lastMessage.content
+                          : user.email}
                       </p>
                       {user.unreadCount > 0 && (
                         <span className="bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">

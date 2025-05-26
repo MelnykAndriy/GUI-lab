@@ -1,34 +1,50 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface AuthFormProps {
-  type: 'login' | 'register';
+  type: "login" | "register";
   onSubmit: (formData: any) => void;
   isLoading?: boolean;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit, isLoading = false }) => {
+const AuthForm: React.FC<AuthFormProps> = ({
+  type,
+  onSubmit,
+  isLoading = false,
+}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    gender: '',
-    dob: '',
-    password: '',
+    name: "",
+    email: "",
+    gender: "",
+    dob: "",
+    password: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSelectChange = (value: string) => {
-    setFormData(prev => ({ ...prev, gender: value }));
+    setFormData((prev) => ({ ...prev, gender: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -39,16 +55,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit, isLoading = false }
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>{type === 'login' ? 'Login' : 'Register'}</CardTitle>
+        <CardTitle>{type === "login" ? "Login" : "Register"}</CardTitle>
         <CardDescription>
-          {type === 'login' 
-            ? 'Enter your credentials to access your account' 
-            : 'Create an account to start chatting'}
+          {type === "login"
+            ? "Enter your credentials to access your account"
+            : "Create an account to start chatting"}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {type === 'register' && (
+          {type === "register" && (
             <>
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
@@ -64,9 +80,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit, isLoading = false }
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Gender</Label>
-                <Select 
-                  value={formData.gender} 
-                  onValueChange={handleSelectChange} 
+                <Select
+                  value={formData.gender}
+                  onValueChange={handleSelectChange}
                   disabled={isLoading}
                 >
                   <SelectTrigger>
@@ -122,16 +138,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit, isLoading = false }
             {isLoading ? (
               <>
                 <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                {type === 'login' ? 'Logging in...' : 'Registering...'}
+                {type === "login" ? "Logging in..." : "Registering..."}
               </>
+            ) : type === "login" ? (
+              "Login"
             ) : (
-              type === 'login' ? 'Login' : 'Register'
+              "Register"
             )}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
-        {type === 'login' ? (
+        {type === "login" ? (
           <p className="text-sm text-muted-foreground">
             Don't have an account?{" "}
             <a href="/register" className="text-primary hover:underline">

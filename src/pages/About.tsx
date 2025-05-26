@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MsgtrikLogo from "@/components/MsgtrikLogo";
@@ -20,12 +19,15 @@ const About: React.FC = () => {
           </CardHeader>
           <CardContent className="text-center">
             <p className="mb-4">
-              Msgtrik is a modern web application that provides simple and intuitive messaging capabilities.
-              With Msgtrik, you can connect with friends, family, and colleagues in a clean, distraction-free environment.
+              Msgtrik is a modern web application that provides simple and
+              intuitive messaging capabilities. With Msgtrik, you can connect
+              with friends, family, and colleagues in a clean, distraction-free
+              environment.
             </p>
             <p>
-              Built with the latest web technologies, Msgtrik offers a responsive design that works on all your devices,
-              from desktop computers to mobile phones.
+              Built with the latest web technologies, Msgtrik offers a
+              responsive design that works on all your devices, from desktop
+              computers to mobile phones.
             </p>
 
             <div className="mt-8 flex justify-center">

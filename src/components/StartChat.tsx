@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,9 +50,9 @@ const StartChat: React.FC<StartChatProps> = ({ onStartChat }) => {
         required
         className="text-sm"
       />
-      <Button 
-        type="submit" 
-        className="w-full" 
+      <Button
+        type="submit"
+        className="w-full"
         size="sm"
         disabled={isLoading || !email.trim()}
       >

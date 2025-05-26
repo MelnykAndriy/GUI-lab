@@ -31,7 +31,7 @@ export const sendMessage = async (data: SendMessageData): Promise<Message> => {
 export const getChatMessages = async (
   userId: number,
   page: number = 1,
-  limit: number = 50
+  limit: number = 50,
 ): Promise<GetMessagesResponse> => {
   return get(`/api/chats/messages/${userId}/?page=${page}&limit=${limit}`);
 };

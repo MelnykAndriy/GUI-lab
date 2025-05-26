@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,10 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
             <MsgtrikLogo size={20} />
           </Link>
           <nav className="hidden md:flex gap-4">
-            <Link to="/about" className="text-sm font-medium hover:text-primary">
+            <Link
+              to="/about"
+              className="text-sm font-medium hover:text-primary"
+            >
               About
             </Link>
           </nav>
@@ -26,7 +28,10 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <>
-              <Link to="/profile" className="text-sm font-medium hover:text-primary">
+              <Link
+                to="/profile"
+                className="text-sm font-medium hover:text-primary"
+              >
                 My Account
               </Link>
               <Button variant="outline" onClick={onLogout}>

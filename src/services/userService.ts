@@ -31,13 +31,15 @@ export const updateUser = async (data: UserUpdateData): Promise<User> => {
   return put("/api/users/me/", data);
 };
 
-export const uploadAvatar = async (file: File): Promise<{ avatarUrl: string }> => {
+export const uploadAvatar = async (
+  file: File,
+): Promise<{ avatarUrl: string }> => {
   const formData = new FormData();
   formData.append("avatar", file);
 
   return apiRequest("/api/users/me/avatar", {
     method: "POST",
     body: formData,
-    headers: {} // Let browser set content-type with boundary for multipart/form-data
+    headers: {}, // Let browser set content-type with boundary for multipart/form-data
   });
 };

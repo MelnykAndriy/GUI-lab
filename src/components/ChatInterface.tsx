@@ -6,9 +6,9 @@ import { Send } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { 
-  fetchMessages, 
-  sendNewMessage, 
+import {
+  fetchMessages,
+  sendNewMessage,
   incrementPage,
   markMessagesAsRead,
   selectMessages,
@@ -17,7 +17,7 @@ import {
   selectHasMore,
   selectChatLoading,
   selectChatError,
-  fetchRecentChats
+  fetchRecentChats,
 } from "@/features/chat/chatSlice";
 import { selectUser } from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
@@ -65,8 +65,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '20px',
-      threshold: 0.1
+      rootMargin: "20px",
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -118,9 +118,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
   useEffect(() => {
     if (selectedUser && messages.length > 0) {
       const hasUnreadMessages = messages.some(
-        msg => msg.senderId === selectedUser.id && !msg.read
+        (msg) => msg.senderId === selectedUser.id && !msg.read,
       );
-      
+
       if (hasUnreadMessages) {
         dispatch(markMessagesAsRead(selectedUser.id));
       }
@@ -134,10 +134,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
     setNewMessage("");
 
     try {
-      await dispatch(sendNewMessage({
-        receiverId: selectedUser.id,
-        content: newMessage
-      })).unwrap();
+      await dispatch(
+        sendNewMessage({
+          receiverId: selectedUser.id,
+          content: newMessage,
+        }),
+      ).unwrap();
 
       // Poll for new messages immediately after sending
       setTimeout(pollMessages, 500);
@@ -161,7 +163,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
       <div className="flex items-center justify-center h-full">
         <div className="text-center p-6">
           <h3 className="text-xl font-medium mb-2">Welcome to Msgtrik</h3>
-          <p className="text-muted-foreground">Select a user to start chatting</p>
+          <p className="text-muted-foreground">
+            Select a user to start chatting
+          </p>
         </div>
       </div>
     );
@@ -174,8 +178,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
         <div className="flex items-center gap-3">
           <UserAvatar user={selectedUser} size="md" />
           <div>
-            <h2 className="font-semibold text-base leading-none mb-1">{selectedUser.profile.name}</h2>
-            <p className="text-sm text-muted-foreground leading-none">{selectedUser.email}</p>
+            <h2 className="font-semibold text-base leading-none mb-1">
+              {selectedUser.profile.name}
+            </h2>
+            <p className="text-sm text-muted-foreground leading-none">
+              {selectedUser.email}
+            </p>
           </div>
         </div>
       </div>
@@ -187,7 +195,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
           <div ref={loadingRef} className="h-4 w-full">
             {isLoading && hasMore && (
               <div className="text-center">
-                <p className="text-sm text-muted-foreground">Loading messages...</p>
+                <p className="text-sm text-muted-foreground">
+                  Loading messages...
+                </p>
               </div>
             )}
           </div>
@@ -206,14 +216,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
                 >
                   <div className="flex-shrink-0">
                     <UserAvatar
-                      user={message.senderId === currentUser?.id ? currentUser : selectedUser}
+                      user={
+                        message.senderId === currentUser?.id
+                          ? currentUser
+                          : selectedUser
+                      }
                       size="md"
                     />
                   </div>
-                  <Card 
+                  <Card
                     className={`max-w-[70%] ${
-                      message.senderId === currentUser?.id 
-                        ? "bg-primary text-primary-foreground" 
+                      message.senderId === currentUser?.id
+                        ? "bg-primary text-primary-foreground"
                         : "bg-secondary"
                     }`}
                   >

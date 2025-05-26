@@ -32,7 +32,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  
+
   schemas:
     UserProfile:
       type: object
@@ -76,7 +76,7 @@ components:
           format: email
           example: "john.doe@example.com"
         profile:
-          $ref: '#/components/schemas/UserProfile'
+          $ref: "#/components/schemas/UserProfile"
 
     UserLoginRequest:
       type: object
@@ -92,7 +92,7 @@ components:
           type: string
           format: password
           example: "password123"
-    
+
     UserRegisterRequest:
       type: object
       required:
@@ -121,7 +121,7 @@ components:
           type: string
           format: date
           example: "1990-01-01"
-    
+
     AuthResponse:
       type: object
       required:
@@ -134,7 +134,7 @@ components:
         refresh:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    
+
     Message:
       type: object
       required:
@@ -167,7 +167,7 @@ components:
           type: boolean
           description: Indicates if the message has been read by the receiver
           example: false
-    
+
     NewMessageRequest:
       type: object
       required:
@@ -181,13 +181,13 @@ components:
         content:
           type: string
           example: "Hello, how are you?"
-    
+
     UserUpdateRequest:
       type: object
       properties:
         profile:
-          $ref: '#/components/schemas/UserProfile'
-    
+          $ref: "#/components/schemas/UserProfile"
+
     ErrorResponse:
       type: object
       required:
@@ -218,27 +218,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLoginRequest'
+              $ref: "#/components/schemas/UserLoginRequest"
         required: true
       responses:
-        '200':
+        "200":
           description: Successful login
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
-        '400':
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
           description: Invalid credentials
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/users/register:
     post:
@@ -252,21 +252,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegisterRequest'
+              $ref: "#/components/schemas/UserRegisterRequest"
         required: true
       responses:
-        '201':
+        "201":
           description: User created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
-        '400':
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
           description: Invalid input or email already exists
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/users/token/refresh:
     post:
@@ -288,7 +288,7 @@ paths:
                   description: The refresh token issued during login
                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
       responses:
-        '200':
+        "200":
           description: New access token issued
           content:
             application/json:
@@ -299,12 +299,12 @@ paths:
                     type: string
                     description: The new access token
                     example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
-        '401':
+        "401":
           description: Invalid or expired refresh token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/users/search/{email}:
     get:
@@ -324,24 +324,24 @@ paths:
             type: string
             format: email
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '401':
+                $ref: "#/components/schemas/User"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/users/me:
     get:
@@ -353,19 +353,19 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '401':
+                $ref: "#/components/schemas/User"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    
+                $ref: "#/components/schemas/ErrorResponse"
+
     put:
       tags:
         - Users
@@ -379,27 +379,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdateRequest'
+              $ref: "#/components/schemas/UserUpdateRequest"
         required: true
       responses:
-        '200':
+        "200":
           description: User updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/users/me/avatar:
     post:
@@ -420,7 +420,7 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
+        "200":
           description: Avatar uploaded successfully
           content:
             application/json:
@@ -431,18 +431,18 @@ paths:
                     type: string
                     format: uri
                     example: "https://example.com/avatar.jpg"
-        '400':
+        "400":
           description: Invalid file format or size
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/chats/messages:
     post:
@@ -458,33 +458,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewMessageRequest'
+              $ref: "#/components/schemas/NewMessageRequest"
         required: true
       responses:
-        '201':
+        "201":
           description: Message sent successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
-        '400':
+                $ref: "#/components/schemas/Message"
+        "400":
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: Receiver not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/chats/messages/{userId}:
     get:
@@ -518,7 +518,7 @@ paths:
             type: integer
             default: 50
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -528,7 +528,7 @@ paths:
                   messages:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Message'
+                      $ref: "#/components/schemas/Message"
                   pagination:
                     type: object
                     properties:
@@ -544,18 +544,18 @@ paths:
                       limit:
                         type: integer
                         example: 50
-        '401':
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/chats:
     get:
@@ -567,7 +567,7 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
@@ -580,18 +580,18 @@ paths:
                       type: object
                       properties:
                         user:
-                          $ref: '#/components/schemas/User'
+                          $ref: "#/components/schemas/User"
                         lastMessage:
-                          $ref: '#/components/schemas/Message'
+                          $ref: "#/components/schemas/Message"
                         unreadCount:
                           type: integer
                           example: 5
-        '401':
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/chats/messages/{userId}/read:
     post:
@@ -611,7 +611,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: Messages marked as read successfully
           content:
             application/json:
@@ -624,15 +624,15 @@ paths:
                   message:
                     type: string
                     example: "Messages marked as read"
-        '401':
+        "401":
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"

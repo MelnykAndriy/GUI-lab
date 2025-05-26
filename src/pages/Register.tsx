@@ -1,10 +1,13 @@
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/components/AuthForm";
 import { toast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, selectUserError, selectUserLoading } from "@/features/user/userSlice";
+import {
+  registerUser,
+  selectUserError,
+  selectUserLoading,
+} from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
 
 const Register: React.FC = () => {
@@ -25,20 +28,22 @@ const Register: React.FC = () => {
   }, [error]);
 
   const handleRegister = async (formData: any) => {
-    const resultAction = await dispatch(registerUser({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      gender: formData.gender,
-      dob: formData.dob
-    }));
+    const resultAction = await dispatch(
+      registerUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        gender: formData.gender,
+        dob: formData.dob,
+      }),
+    );
 
     if (registerUser.fulfilled.match(resultAction)) {
       toast({
         title: "Registration Successful",
         description: "Your account has been created.",
       });
-      
+
       // Force navigation to chat page
       setTimeout(() => {
         navigate("/chat", { replace: true });
@@ -54,12 +59,8 @@ const Register: React.FC = () => {
           Join our community and start chatting
         </p>
       </div>
-      
-      <AuthForm 
-        type="register" 
-        onSubmit={handleRegister}
-        isLoading={loading}
-      />
+
+      <AuthForm type="register" onSubmit={handleRegister} isLoading={loading} />
     </div>
   );
 };

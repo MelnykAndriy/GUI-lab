@@ -6,21 +6,21 @@
 export const formatMessageTimestamp = (timestamp: string): string => {
   const messageDate = new Date(timestamp);
   const now = new Date();
-  
+
   // Check if the message is from today
   const isToday = messageDate.toDateString() === now.toDateString();
-  
+
   // Check if the message is from yesterday
   const yesterday = new Date(now);
   yesterday.setDate(yesterday.getDate() - 1);
   const isYesterday = messageDate.toDateString() === yesterday.toDateString();
-  
+
   // Format time
-  const timeString = messageDate.toLocaleTimeString([], { 
-    hour: '2-digit', 
-    minute: '2-digit'
+  const timeString = messageDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
   });
-  
+
   if (isToday) {
     return timeString;
   } else if (isYesterday) {
@@ -28,9 +28,10 @@ export const formatMessageTimestamp = (timestamp: string): string => {
   } else {
     // For older messages, show full date
     const dateString = messageDate.toLocaleDateString([], {
-      month: 'short',
-      day: 'numeric',
-      year: messageDate.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+      month: "short",
+      day: "numeric",
+      year:
+        messageDate.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
     });
     return `${dateString} at ${timeString}`;
   }
@@ -54,4 +55,4 @@ export const formatRecentChatTimestamp = (timestamp: string): string => {
  */
 export const compareTimestamps = (a: string, b: string): number => {
   return new Date(a).getTime() - new Date(b).getTime();
-}; 
+};

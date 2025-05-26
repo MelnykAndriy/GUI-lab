@@ -1,10 +1,13 @@
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/components/AuthForm";
 import { toast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, selectUserError, selectUserLoading } from "@/features/user/userSlice";
+import {
+  loginUser,
+  selectUserError,
+  selectUserLoading,
+} from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
 
 const Login: React.FC = () => {
@@ -25,17 +28,19 @@ const Login: React.FC = () => {
   }, [error]);
 
   const handleLogin = async (formData: any) => {
-    const resultAction = await dispatch(loginUser({
-      email: formData.email,
-      password: formData.password
-    }));
+    const resultAction = await dispatch(
+      loginUser({
+        email: formData.email,
+        password: formData.password,
+      }),
+    );
 
     if (loginUser.fulfilled.match(resultAction)) {
       toast({
         title: "Login Successful",
         description: "Welcome back!",
       });
-      
+
       // Force navigation to chat page
       setTimeout(() => {
         navigate("/chat", { replace: true });
@@ -51,12 +56,8 @@ const Login: React.FC = () => {
           Login to continue chatting with your friends on Msgtrik
         </p>
       </div>
-      
-      <AuthForm 
-        type="login" 
-        onSubmit={handleLogin} 
-        isLoading={loading} 
-      />
+
+      <AuthForm type="login" onSubmit={handleLogin} isLoading={loading} />
     </div>
   );
 };
