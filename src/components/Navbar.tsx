@@ -36,7 +36,11 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
               >
                 My Account
               </Link>
-              <Button variant="outline" onClick={onLogout} data-testid="logout-button">
+              <Button
+                variant="outline"
+                onClick={onLogout}
+                data-testid="logout-button"
+              >
                 Logout
               </Button>
             </>

@@ -40,13 +40,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    
+
     // Check form validity
     if (!form.checkValidity()) {
       // Trigger browser's default validation UI
       return;
     }
-    
+
     // Additional validation for gender
     if (!formData.gender) {
       return;
@@ -59,11 +59,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     const { name, value } = e.target;
     setFormData((prev) => {
       // For date input, ensure the value is properly formatted
-      if (name === 'dob' && value) {
+      if (name === "dob" && value) {
         try {
           // Ensure the date is in YYYY-MM-DD format
           const date = new Date(value);
-          const formattedDate = date.toISOString().split('T')[0];
+          const formattedDate = date.toISOString().split("T")[0];
           return { ...prev, [name]: formattedDate };
         } catch (error) {
           return prev;
@@ -84,7 +84,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         <CardDescription>Create an account to start chatting</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4" data-testid="register-form">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+          data-testid="register-form"
+        >
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -112,9 +116,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="male" data-testid="gender-option-male">Male</SelectItem>
-                <SelectItem value="female" data-testid="gender-option-female">Female</SelectItem>
-                <SelectItem value="other" data-testid="gender-option-other">Other</SelectItem>
+                <SelectItem value="male" data-testid="gender-option-male">
+                  Male
+                </SelectItem>
+                <SelectItem value="female" data-testid="gender-option-female">
+                  Female
+                </SelectItem>
+                <SelectItem value="other" data-testid="gender-option-other">
+                  Other
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -158,10 +168,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               data-testid="password-input"
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading} data-testid="submit-button">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoading}
+            data-testid="submit-button"
+          >
             {isLoading ? (
               <>
-                <ReloadIcon data-testid="loading-spinner" className="mr-2 h-4 w-4 animate-spin" />
+                <ReloadIcon
+                  data-testid="loading-spinner"
+                  className="mr-2 h-4 w-4 animate-spin"
+                />
                 Registering...
               </>
             ) : (
@@ -182,4 +200,4 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   );
 };
 
-export default RegisterForm; 
+export default RegisterForm;

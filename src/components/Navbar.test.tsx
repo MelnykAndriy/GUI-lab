@@ -28,7 +28,10 @@ describe("Navbar", () => {
 
     // Check auth buttons
     expect(screen.getByTestId("login-link")).toHaveAttribute("href", "/login");
-    expect(screen.getByTestId("register-link")).toHaveAttribute("href", "/register");
+    expect(screen.getByTestId("register-link")).toHaveAttribute(
+      "href",
+      "/register",
+    );
 
     // Verify logged-out state specific elements are not present
     expect(screen.queryByTestId("profile-link")).not.toBeInTheDocument();
@@ -39,7 +42,10 @@ describe("Navbar", () => {
     renderWithRouter(<Navbar isLoggedIn={true} />);
 
     // Check presence of logged-in state elements
-    expect(screen.getByTestId("profile-link")).toHaveAttribute("href", "/profile");
+    expect(screen.getByTestId("profile-link")).toHaveAttribute(
+      "href",
+      "/profile",
+    );
     expect(screen.getByTestId("logout-button")).toBeInTheDocument();
 
     // Verify logged-out state elements are not present
@@ -69,6 +75,9 @@ describe("Navbar", () => {
     expect(screen.getByTestId("logo-link")).toHaveAttribute("href", "/");
     expect(screen.getByTestId("about-link")).toHaveAttribute("href", "/about");
     expect(screen.getByTestId("login-link")).toHaveAttribute("href", "/login");
-    expect(screen.getByTestId("register-link")).toHaveAttribute("href", "/register");
+    expect(screen.getByTestId("register-link")).toHaveAttribute(
+      "href",
+      "/register",
+    );
   });
-}); 
+});

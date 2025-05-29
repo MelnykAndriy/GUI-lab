@@ -18,7 +18,10 @@ interface LoginFormProps {
   isLoading?: boolean;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  onSubmit,
+  isLoading = false,
+}) => {
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -72,7 +75,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false }) =>
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
-                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" data-testid="loading-spinner" />
+                <ReloadIcon
+                  className="mr-2 h-4 w-4 animate-spin"
+                  data-testid="loading-spinner"
+                />
                 Logging in...
               </>
             ) : (
@@ -93,4 +99,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false }) =>
   );
 };
 
-export default LoginForm; 
+export default LoginForm;

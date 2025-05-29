@@ -80,4 +80,4 @@ describe("MsgtrikLogo", () => {
     expect(logo.className).toContain("custom-padding");
     expect(logo.className).toContain("custom-margin");
   });
-}); 
+});

@@ -72,14 +72,21 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
 
   if (!profile.avatarUrl) {
     return (
-      <div data-testid="avatar-container" className={`${baseClasses} ${getBackgroundColor()}`}>
+      <div
+        data-testid="avatar-container"
+        className={`${baseClasses} ${getBackgroundColor()}`}
+      >
         {getFallbackContent()}
       </div>
     );
   }
 
   return (
-    <div data-testid="avatar-container" className={baseClasses} style={{ position: "relative" }}>
+    <div
+      data-testid="avatar-container"
+      className={baseClasses}
+      style={{ position: "relative" }}
+    >
       <img
         data-testid="avatar-image"
         src={profile.avatarUrl}
@@ -91,7 +98,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
           if (container) {
             container.classList.add(getBackgroundColor());
             // Show the fallback content that's already in the DOM
-            const fallback = container.querySelector('[data-testid="avatar-fallback"]');
+            const fallback = container.querySelector(
+              '[data-testid="avatar-fallback"]',
+            );
             if (fallback) {
               fallback.classList.remove("opacity-0");
             }
