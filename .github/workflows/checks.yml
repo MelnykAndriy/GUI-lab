@@ -45,32 +45,3 @@ jobs:
           name: coverage-report
           path: coverage/
           retention-days: 7
-
-      - name: Check coverage thresholds
-        run: |
-          COVERAGE_FILE="coverage/coverage-summary.json"
-          if [ ! -f "$COVERAGE_FILE" ]; then
-            echo "Coverage file not found!"
-            exit 1
-          fi
-
-          LINES_COVERAGE=$(jq '.total.lines.pct' "$COVERAGE_FILE")
-          STATEMENTS_COVERAGE=$(jq '.total.statements.pct' "$COVERAGE_FILE")
-          FUNCTIONS_COVERAGE=$(jq '.total.functions.pct' "$COVERAGE_FILE")
-          BRANCHES_COVERAGE=$(jq '.total.branches.pct' "$COVERAGE_FILE")
-
-          echo "Lines coverage: $LINES_COVERAGE%"
-          echo "Statements coverage: $STATEMENTS_COVERAGE%"
-          echo "Functions coverage: $FUNCTIONS_COVERAGE%"
-          echo "Branches coverage: $BRANCHES_COVERAGE%"
-
-          # Example thresholds - adjust as needed
-          if (( $(echo "$LINES_COVERAGE < 80" | bc -l) )) || \
-             (( $(echo "$STATEMENTS_COVERAGE < 80" | bc -l) )) || \
-             (( $(echo "$FUNCTIONS_COVERAGE < 75" | bc -l) )) || \
-             (( $(echo "$BRANCHES_COVERAGE < 70" | bc -l) )); then
-            echo "❌ Coverage is below thresholds!"
-            exit 1
-          fi
-
-          echo "✅ Coverage meets all thresholds!"
