@@ -62,9 +62,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
 
   const getFallbackContent = () => {
     return profile.name ? (
-      getInitials(profile.name)
+      <span data-testid="avatar-initials">{getInitials(profile.name)}</span>
     ) : (
-      <User className="text-white h-1/2 w-1/2" />
+      <User data-testid="user-icon" className="text-white h-1/2 w-1/2" />
     );
   };
 
@@ -72,30 +72,34 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
 
   if (!profile.avatarUrl) {
     return (
-      <div className={`${baseClasses} ${getBackgroundColor()}`}>
+      <div data-testid="avatar-container" className={`${baseClasses} ${getBackgroundColor()}`}>
         {getFallbackContent()}
       </div>
     );
   }
 
   return (
-    <div className={baseClasses} style={{ position: "relative" }}>
+    <div data-testid="avatar-container" className={baseClasses} style={{ position: "relative" }}>
       <img
+        data-testid="avatar-image"
         src={profile.avatarUrl}
         alt={profile.name || "User"}
         className="h-full w-full object-cover"
         onError={(e) => {
           e.currentTarget.style.display = "none";
-          e.currentTarget.parentElement?.classList.add(getBackgroundColor());
-          // Force a re-render of the fallback content
-          e.currentTarget.parentElement?.appendChild(
-            document.createTextNode(
-              profile.name ? getInitials(profile.name) : "",
-            ),
-          );
+          const container = e.currentTarget.parentElement;
+          if (container) {
+            container.classList.add(getBackgroundColor());
+            // Show the fallback content that's already in the DOM
+            const fallback = container.querySelector('[data-testid="avatar-fallback"]');
+            if (fallback) {
+              fallback.classList.remove("opacity-0");
+            }
+          }
         }}
       />
       <div
+        data-testid="avatar-fallback"
         className={`absolute inset-0 flex items-center justify-center ${getBackgroundColor()} opacity-0`}
       >
         {getFallbackContent()}
