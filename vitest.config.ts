@@ -23,8 +23,21 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
     coverage: {
-      reporter: ["text", "json", "html"],
-      exclude: ["node_modules/", "src/test/setup.ts"],
+      provider: "v8",
+      reporter: ["text", "json-summary", "json", "html"],
+      exclude: [
+        "node_modules/",
+        "src/test/",
+        "**/*.d.ts",
+        "**/*.config.*",
+        "**/index.ts",
+      ],
+      thresholds: {
+        lines: 80,
+        statements: 80,
+        functions: 75,
+        branches: 70,
+      },
     },
   },
 }));
