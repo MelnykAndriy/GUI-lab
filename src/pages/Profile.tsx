@@ -286,6 +286,7 @@ const Profile: React.FC = () => {
               onChange={handleImageUpload}
               accept="image/*"
               className="hidden"
+              data-testid="avatar-upload"
             />
 
             {!userData.avatarUrl && (
@@ -357,6 +358,7 @@ const Profile: React.FC = () => {
                     value={userData.name || ""}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     className="max-w-xs"
+                    aria-label="Name"
                   />
                   <Button size="sm" onClick={() => saveChanges("name")}>
                     <Save className="h-4 w-4 mr-1" />
@@ -370,6 +372,7 @@ const Profile: React.FC = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setEditMode({ ...editMode, name: true })}
+                    aria-label="Edit name"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -424,6 +427,7 @@ const Profile: React.FC = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setEditMode({ ...editMode, gender: true })}
+                    aria-label="Edit gender"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -443,6 +447,7 @@ const Profile: React.FC = () => {
                     value={userData.dob || ""}
                     onChange={(e) => handleInputChange("dob", e.target.value)}
                     className="max-w-xs"
+                    aria-label="Date of Birth"
                   />
                   <Button size="sm" onClick={() => saveChanges("dob")}>
                     <Save className="h-4 w-4 mr-1" />
@@ -456,6 +461,7 @@ const Profile: React.FC = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setEditMode({ ...editMode, dob: true })}
+                    aria-label="Edit date of birth"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>

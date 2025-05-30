@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "TZ=UTC vitest run",
+    "test:watch": "TZ=UTC vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

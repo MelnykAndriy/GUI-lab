@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "@/components/AuthForm";
 import { toast } from "@/components/ui/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,6 +8,8 @@ import {
   selectUserLoading,
 } from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
+import { RegisterData } from "@/services/authService";
+import RegisterForm from "@/components/RegisterForm";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -27,16 +28,8 @@ const Register: React.FC = () => {
     }
   }, [error]);
 
-  const handleRegister = async (formData: any) => {
-    const resultAction = await dispatch(
-      registerUser({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        gender: formData.gender,
-        dob: formData.dob,
-      }),
-    );
+  const handleRegister = async (formData: RegisterData) => {
+    const resultAction = await dispatch(registerUser(formData));
 
     if (registerUser.fulfilled.match(resultAction)) {
       toast({
@@ -60,7 +53,7 @@ const Register: React.FC = () => {
         </p>
       </div>
 
-      <AuthForm type="register" onSubmit={handleRegister} isLoading={loading} />
+      <RegisterForm onSubmit={handleRegister} isLoading={loading} />
     </div>
   );
 };

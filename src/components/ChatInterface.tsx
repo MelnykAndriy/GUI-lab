@@ -212,6 +212,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
               {messages.map((message) => (
                 <div
                   key={message.id}
+                  data-testid="message-container"
                   className={`flex items-center gap-3 ${message.senderId === currentUser?.id ? "flex-row-reverse" : "flex-row"}`}
                 >
                   <div className="flex-shrink-0">
