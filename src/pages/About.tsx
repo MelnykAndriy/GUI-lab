@@ -4,11 +4,14 @@ import MsgtrikLogo from "@/components/MsgtrikLogo";
 
 const About: React.FC = () => {
   return (
-    <div className="container py-12">
-      <div className="max-w-2xl mx-auto">
-        <Card>
-          <CardHeader className="text-center">
-            <div className="w-24 h-24 mx-auto flex items-center justify-center mb-4">
+    <div className="container py-12" data-testid="about-container">
+      <div className="max-w-2xl mx-auto" data-testid="about-wrapper">
+        <Card role="article">
+          <CardHeader role="banner" className="text-center">
+            <div
+              className="w-24 h-24 mx-auto flex items-center justify-center mb-4"
+              data-testid="logo-container"
+            >
               <MsgtrikLogo size={48} className="scale-150" />
             </div>
             <div className="max-w-3xl mx-auto text-center mb-12">
@@ -17,14 +20,14 @@ const About: React.FC = () => {
               </p>
             </div>
           </CardHeader>
-          <CardContent className="text-center">
+          <CardContent role="region" className="text-center">
             <p className="mb-4">
               Msgtrik is a modern web application that provides simple and
               intuitive messaging capabilities. With Msgtrik, you can connect
               with friends, family, and colleagues in a clean, distraction-free
               environment.
             </p>
-            <p>
+            <p className="mb-4">
               Built with the latest web technologies, Msgtrik offers a
               responsive design that works on all your devices, from desktop
               computers to mobile phones.
