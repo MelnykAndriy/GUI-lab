@@ -20,7 +20,7 @@ const localStorageMock = {
   removeItem: vi.fn(),
   clear: vi.fn(),
 };
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
 // Mock API calls
 vi.mock("@/services/messageService", () => ({
@@ -132,7 +132,7 @@ describe("Chat Page", () => {
         </Provider>,
       );
       // Wait for any initial async operations
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     return rendered;
@@ -157,25 +157,27 @@ describe("Chat Page", () => {
   it("renders chat components in desktop view", async () => {
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
-    
+
     // Check for sidebar elements
     expect(screen.getByText("Chats")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /new/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /select user/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /select user/i }),
+    ).toBeInTheDocument();
   });
 
   it("toggles start chat section", async () => {
     const user = userEvent.setup({ delay: null });
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /new/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(screen.getByTestId("start-chat")).toBeInTheDocument();
@@ -184,7 +186,7 @@ describe("Chat Page", () => {
     const closeButton = screen.getByRole("button", { name: "" }); // Empty name for icon button
     await act(async () => {
       await user.click(closeButton);
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(screen.queryByTestId("start-chat")).not.toBeInTheDocument();
@@ -194,17 +196,17 @@ describe("Chat Page", () => {
     const user = userEvent.setup({ delay: null });
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /new/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /start new chat/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     const state = mockStore.getState();
@@ -218,17 +220,19 @@ describe("Chat Page", () => {
   it("switches to mobile view", async () => {
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       Object.defineProperty(window, "innerWidth", { value: 600 });
       mockResizeEvent();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     // Find the sidebar container
-    const sidebar = screen.getByText("Chats").closest('div[class*="flex-shrink-0"]');
+    const sidebar = screen
+      .getByText("Chats")
+      .closest('div[class*="flex-shrink-0"]');
     expect(sidebar).toBeInTheDocument();
     expect(sidebar).toHaveClass("w-full", "md:w-80", "flex-shrink-0");
   });
@@ -237,18 +241,18 @@ describe("Chat Page", () => {
     const user = userEvent.setup({ delay: null });
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       Object.defineProperty(window, "innerWidth", { value: 600 });
       mockResizeEvent();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /select user/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     const backButton = screen.getByRole("button", { name: "" }); // ChevronLeft icon button
@@ -256,7 +260,7 @@ describe("Chat Page", () => {
 
     await act(async () => {
       await user.click(backButton);
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     const state = mockStore.getState();
@@ -268,17 +272,17 @@ describe("Chat Page", () => {
     const dispatchSpy = vi.spyOn(mockStore, "dispatch");
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /select user/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /send message/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(dispatchSpy).toHaveBeenCalledWith(expect.any(Function));
@@ -288,12 +292,12 @@ describe("Chat Page", () => {
     const user = userEvent.setup({ delay: null });
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await act(async () => {
       await user.click(screen.getByRole("button", { name: /select user/i }));
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     const state = mockStore.getState();
@@ -335,7 +339,7 @@ describe("Chat Page", () => {
           <Chat />
         </Provider>,
       );
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await waitFor(() => {
@@ -347,7 +351,7 @@ describe("Chat Page", () => {
     const dispatchSpy = vi.spyOn(mockStore, "dispatch");
     await act(async () => {
       await renderChat();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await waitFor(() => {
@@ -356,7 +360,7 @@ describe("Chat Page", () => {
 
     await act(async () => {
       vi.advanceTimersByTime(10000);
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(dispatchSpy).toHaveBeenCalledTimes(2);

@@ -193,8 +193,8 @@ describe("ChatInterface", () => {
       expect(screen.getByText("Hi there!")).toBeInTheDocument();
 
       // Verify timestamps are displayed
-      expect(screen.getByText("Mar 20, 2024 at 12:00 PM")).toBeInTheDocument();
-      expect(screen.getByText("Mar 20, 2024 at 12:01 PM")).toBeInTheDocument();
+      expect(screen.getByText("Mar 20, 2024 at 10:00 PM")).toBeInTheDocument();
+      expect(screen.getByText("Mar 20, 2024 at 10:01 PM")).toBeInTheDocument();
 
       // Verify user avatars (including header avatar)
       const headerAvatar = screen.getAllByTestId("avatar-initials")[0];
