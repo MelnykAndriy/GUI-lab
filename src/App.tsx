@@ -22,7 +22,11 @@ import {
 
 const queryClient = new QueryClient();
 
-const App = () => {
+interface AppProps {
+  RouterComponent?: typeof BrowserRouter;
+}
+
+const App = ({ RouterComponent = BrowserRouter }: AppProps) => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [userData, setUserData] = useState<any>(null);
@@ -59,7 +63,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <RouterComponent>
           <div className="min-h-screen flex flex-col">
             <Routes>
               <Route
@@ -171,7 +175,7 @@ const App = () => {
               />
             </Routes>
           </div>
-        </BrowserRouter>
+        </RouterComponent>
       </TooltipProvider>
     </QueryClientProvider>
   );
