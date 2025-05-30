@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { apiRequest, getAuthToken, getRefreshToken, get, post, put } from "./api";
+import {
+  apiRequest,
+  getAuthToken,
+  getRefreshToken,
+  get,
+  post,
+  put,
+} from "./api";
 import { refreshToken } from "./authService";
 
 // Mock fetch
@@ -239,4 +246,4 @@ describe("API Service", () => {
       );
     });
   });
-}); 
+});

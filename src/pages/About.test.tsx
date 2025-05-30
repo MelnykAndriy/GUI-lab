@@ -31,7 +31,7 @@ describe("About Page", () => {
 
   it("displays the main description sections", () => {
     renderAbout();
-    
+
     // First paragraph
     expect(
       screen.getByText(
@@ -62,7 +62,7 @@ describe("About Page", () => {
 
   it("renders in a card layout", () => {
     renderAbout();
-    
+
     // Check for card structure
     const card = screen.getByRole("article");
     expect(card).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("About Page", () => {
 
   it("has proper responsive layout classes", () => {
     renderAbout();
-    
+
     // Container
     const container = screen.getByTestId("about-container");
     expect(container).toHaveClass("container", "py-12");
@@ -105,14 +105,14 @@ describe("About Page", () => {
 
   it("maintains consistent text styling", () => {
     renderAbout();
-    
+
     // Tagline
     const tagline = screen.getByText("A simple, modern chat application");
     expect(tagline).toHaveClass("text-xl", "text-muted-foreground");
 
     // Description paragraphs
     const paragraphs = screen.getAllByText(/^(Msgtrik|Built)/);
-    paragraphs.forEach(paragraph => {
+    paragraphs.forEach((paragraph) => {
       expect(paragraph).toHaveClass("mb-4");
     });
 
@@ -120,4 +120,4 @@ describe("About Page", () => {
     const registerLink = screen.getByText("Join us today!");
     expect(registerLink).toHaveClass("text-primary", "hover:underline");
   });
-}); 
+});

@@ -7,7 +7,7 @@ const renderIndex = () => {
   render(
     <BrowserRouter>
       <Index />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 };
 
@@ -26,12 +26,12 @@ describe("Index", () => {
       "from-primary",
       "to-accent",
       "bg-clip-text",
-      "text-transparent"
+      "text-transparent",
     );
 
     // Check subtitle
     const subtitle = screen.getByText(
-      "Connect with friends and family with our simple, modern chat application. Register now to start chatting!"
+      "Connect with friends and family with our simple, modern chat application. Register now to start chatting!",
     );
     expect(subtitle).toBeInTheDocument();
     expect(subtitle).toHaveClass("text-xl", "mb-8", "text-muted-foreground");
@@ -58,48 +58,91 @@ describe("Index", () => {
 
     // Feature 1: Simple & Clean
     const simpleCard = screen.getByText("Simple & Clean").closest("div");
-    expect(simpleCard).toHaveClass("bg-card", "p-6", "rounded-lg", "shadow-sm", "border");
-    expect(screen.getByText("Simple & Clean")).toHaveClass("text-xl", "font-semibold", "mb-3");
-    expect(screen.getByText("Enjoy a distraction-free chat experience with our minimalist design."))
-      .toHaveClass("text-muted-foreground");
+    expect(simpleCard).toHaveClass(
+      "bg-card",
+      "p-6",
+      "rounded-lg",
+      "shadow-sm",
+      "border",
+    );
+    expect(screen.getByText("Simple & Clean")).toHaveClass(
+      "text-xl",
+      "font-semibold",
+      "mb-3",
+    );
+    expect(
+      screen.getByText(
+        "Enjoy a distraction-free chat experience with our minimalist design.",
+      ),
+    ).toHaveClass("text-muted-foreground");
 
     // Feature 2: Mobile Friendly
     const mobileCard = screen.getByText("Mobile Friendly").closest("div");
-    expect(mobileCard).toHaveClass("bg-card", "p-6", "rounded-lg", "shadow-sm", "border");
-    expect(screen.getByText("Mobile Friendly")).toHaveClass("text-xl", "font-semibold", "mb-3");
-    expect(screen.getByText("Chat on the go with our fully responsive mobile design."))
-      .toHaveClass("text-muted-foreground");
+    expect(mobileCard).toHaveClass(
+      "bg-card",
+      "p-6",
+      "rounded-lg",
+      "shadow-sm",
+      "border",
+    );
+    expect(screen.getByText("Mobile Friendly")).toHaveClass(
+      "text-xl",
+      "font-semibold",
+      "mb-3",
+    );
+    expect(
+      screen.getByText(
+        "Chat on the go with our fully responsive mobile design.",
+      ),
+    ).toHaveClass("text-muted-foreground");
 
     // Feature 3: Fast & Secure
     const secureCard = screen.getByText("Fast & Secure").closest("div");
-    expect(secureCard).toHaveClass("bg-card", "p-6", "rounded-lg", "shadow-sm", "border");
-    expect(screen.getByText("Fast & Secure")).toHaveClass("text-xl", "font-semibold", "mb-3");
-    expect(screen.getByText("Experience fast messaging with privacy and security built in."))
-      .toHaveClass("text-muted-foreground");
+    expect(secureCard).toHaveClass(
+      "bg-card",
+      "p-6",
+      "rounded-lg",
+      "shadow-sm",
+      "border",
+    );
+    expect(screen.getByText("Fast & Secure")).toHaveClass(
+      "text-xl",
+      "font-semibold",
+      "mb-3",
+    );
+    expect(
+      screen.getByText(
+        "Experience fast messaging with privacy and security built in.",
+      ),
+    ).toHaveClass("text-muted-foreground");
   });
 
   it("renders with responsive layout classes", () => {
     renderIndex();
 
     // Check main container
-    const mainContainer = screen.getByText("Welcome to Msgtrik").closest("div").parentElement;
+    const mainContainer = screen
+      .getByText("Welcome to Msgtrik")
+      .closest("div").parentElement;
     expect(mainContainer).toHaveClass(
       "min-h-[calc(100vh-4rem)]",
       "flex",
       "flex-col",
       "items-center",
-      "justify-center"
+      "justify-center",
     );
 
     // Check feature cards container
-    const featureContainer = screen.getByText("Simple & Clean").closest("div").parentElement;
+    const featureContainer = screen
+      .getByText("Simple & Clean")
+      .closest("div").parentElement;
     expect(featureContainer).toHaveClass(
       "grid",
       "grid-cols-1",
       "md:grid-cols-3",
       "gap-8",
       "w-full",
-      "max-w-5xl"
+      "max-w-5xl",
     );
 
     // Check buttons container
@@ -109,7 +152,7 @@ describe("Index", () => {
       "flex-col",
       "sm:flex-row",
       "justify-center",
-      "gap-4"
+      "gap-4",
     );
   });
 
@@ -127,11 +170,11 @@ describe("Index", () => {
       "Mobile Friendly",
       "Chat on the go with our fully responsive mobile design.",
       "Fast & Secure",
-      "Experience fast messaging with privacy and security built in."
+      "Experience fast messaging with privacy and security built in.",
     ];
 
-    expectedTexts.forEach(text => {
+    expectedTexts.forEach((text) => {
       expect(screen.getByText(text)).toBeInTheDocument();
     });
   });
-}); 
+});

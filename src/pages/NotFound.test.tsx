@@ -4,7 +4,9 @@ import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import NotFound from "./NotFound";
 
 // Mock console.error
-const mockConsoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+const mockConsoleError = vi
+  .spyOn(console, "error")
+  .mockImplementation(() => {});
 
 describe("NotFound", () => {
   beforeEach(() => {
@@ -15,7 +17,7 @@ describe("NotFound", () => {
     render(
       <BrowserRouter>
         <NotFound />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
 
     // Check for main heading
@@ -33,23 +35,27 @@ describe("NotFound", () => {
     const homeLink = screen.getByText("Return to Home");
     expect(homeLink).toBeInTheDocument();
     expect(homeLink).toHaveAttribute("href", "/");
-    expect(homeLink).toHaveClass("text-blue-500", "hover:text-blue-700", "underline");
+    expect(homeLink).toHaveClass(
+      "text-blue-500",
+      "hover:text-blue-700",
+      "underline",
+    );
   });
 
   it("logs error with correct pathname", () => {
     const testPath = "/non-existent-path";
-    
+
     render(
       <MemoryRouter initialEntries={[testPath]}>
         <NotFound />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Verify error was logged with correct path
     expect(mockConsoleError).toHaveBeenCalledTimes(1);
     expect(mockConsoleError).toHaveBeenCalledWith(
       "404 Error: User attempted to access non-existent route:",
-      testPath
+      testPath,
     );
   });
 
@@ -58,12 +64,12 @@ describe("NotFound", () => {
     render(
       <MemoryRouter initialEntries={[firstPath]}>
         <NotFound />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(mockConsoleError).toHaveBeenCalledWith(
       "404 Error: User attempted to access non-existent route:",
-      firstPath
+      firstPath,
     );
 
     mockConsoleError.mockClear();
@@ -72,12 +78,12 @@ describe("NotFound", () => {
     render(
       <MemoryRouter initialEntries={[secondPath]}>
         <NotFound />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(mockConsoleError).toHaveBeenCalledWith(
       "404 Error: User attempted to access non-existent route:",
-      secondPath
+      secondPath,
     );
   });
 
@@ -85,7 +91,7 @@ describe("NotFound", () => {
     render(
       <BrowserRouter>
         <NotFound />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
 
     const container = screen.getByText("404").closest("div");
@@ -94,7 +100,7 @@ describe("NotFound", () => {
       "flex",
       "items-center",
       "justify-center",
-      "bg-gray-100"
+      "bg-gray-100",
     );
   });
-}); 
+});
