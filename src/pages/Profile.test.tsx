@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 const mockToast = vi.hoisted(() => vi.fn());
 
 vi.mock("@/components/ui/use-toast", () => ({
