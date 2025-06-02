@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { act } from "react";
 import userEvent from "@testing-library/user-event";
 import LoginForm from "./LoginForm";
 import { LoginData } from "@/services/authService";

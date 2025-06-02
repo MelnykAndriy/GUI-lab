@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { act } from "react";
 import userEvent from "@testing-library/user-event";
 import StartChat from "./StartChat";
 import { getUserByEmail } from "@/services/userService";
 import * as toastHooks from "@/hooks/use-toast";
+import type { Mock } from "vitest";
 
 // Mock the userService
 vi.mock("@/services/userService");
@@ -19,8 +21,8 @@ describe("StartChat", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (getUserByEmail as jest.Mock).mockReset();
-    (toastHooks.useToast as jest.Mock).mockReturnValue({ toast: mockToast });
+    (getUserByEmail as Mock).mockReset();
+    (toastHooks.useToast as Mock).mockReturnValue({ toast: mockToast });
   });
 
   it("renders the start chat form correctly", async () => {
@@ -63,7 +65,7 @@ describe("StartChat", () => {
       profile: { name: "Test User" },
     };
 
-    (getUserByEmail as jest.Mock).mockResolvedValueOnce(mockUser);
+    (getUserByEmail as Mock).mockResolvedValueOnce(mockUser);
 
     await act(async () => {
       render(<StartChat onStartChat={mockOnStartChat} />);
@@ -92,9 +94,7 @@ describe("StartChat", () => {
     const user = userEvent.setup();
     const errorMessage = "User not found";
 
-    (getUserByEmail as jest.Mock).mockRejectedValueOnce(
-      new Error(errorMessage),
-    );
+    (getUserByEmail as Mock).mockRejectedValueOnce(new Error(errorMessage));
 
     await act(async () => {
       render(<StartChat onStartChat={mockOnStartChat} />);
@@ -119,14 +119,14 @@ describe("StartChat", () => {
     });
   });
 
-  it("shows loading state while searching for user", async () => {
+  it("shows loading state while searching", async () => {
     const user = userEvent.setup();
     let resolvePromise: (value: any) => void;
     const searchPromise = new Promise((resolve) => {
       resolvePromise = resolve;
     });
 
-    (getUserByEmail as jest.Mock).mockImplementationOnce(() => searchPromise);
+    (getUserByEmail as Mock).mockImplementationOnce(() => searchPromise);
 
     await act(async () => {
       render(<StartChat onStartChat={mockOnStartChat} />);
