@@ -55,11 +55,11 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run dev
-          wait-on: 'http://localhost:8080'
+          wait-on: "http://localhost:8080"
           wait-on-timeout: 120
           browser: chrome
           record: false
-          
+
       - name: Upload Cypress screenshots
         uses: actions/upload-artifact@v4
         if: failure()
