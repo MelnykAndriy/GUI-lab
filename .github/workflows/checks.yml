@@ -36,12 +36,42 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Run tests with coverage
+      - name: Run unit tests with coverage
         run: npm run test -- --coverage
 
-      - name: Upload coverage reports
+      - name: Upload test coverage reports
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: unit-test-coverage
           path: coverage/
+          retention-days: 7
+
+      - name: Install Cypress dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 120
+          browser: chrome
+          record: false
+          
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
           retention-days: 7
