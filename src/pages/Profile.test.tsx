@@ -60,7 +60,7 @@ import {
   getCurrentUser,
   updateUser,
 } from "@/services/userService";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 // Mock the userService
 vi.mock("@/services/userService", () => ({
