@@ -305,7 +305,7 @@ describe("Authentication", () => {
       // Verify user is logged out
       cy.url().should("include", "/");
       cy.window().then((win) => {
-        expect(win.localStorage.getItem("currentUser")).to.be.null;
+        expect(win.localStorage.getItem("currentUser")).to.equal(null);
       });
     });
   });
