@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react";
-import { MountOptions, MountReturn } from "cypress/react";
 import { ByRoleMatcher } from "@testing-library/dom/types/matches";
 
 declare global {

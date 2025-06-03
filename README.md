@@ -82,6 +82,15 @@ npm run cypress:open
 npm run test:e2e
 ```
 
+Running with coverage
+
+```sh
+CYPRESS_COVERAGE=true npm run test:e2e
+# then 
+
+npx nyc report --reporter=text
+```
+
 Note: End-to-end tests require the development server to be running on port 8080. The `test:e2e` command will automatically start the server before running tests.
 
 #### Writing Tests

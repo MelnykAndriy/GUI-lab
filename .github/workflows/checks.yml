@@ -46,11 +46,8 @@ jobs:
           path: coverage/
           retention-days: 7
 
-      - name: Install Cypress dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-
+      # The cypress-io/github-action@v6 uses a pre-configured GitHub runner image
+      # that already includes these system dependencies, so we can remove this step
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
