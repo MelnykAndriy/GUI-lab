@@ -27,8 +27,12 @@ interface ChatInterfaceProps {
   onMessageSent?: () => void;
 }
 
-// Polling interval in milliseconds (3 seconds)
-const POLLING_INTERVAL = 3000;
+// Add to the top of the file, after imports
+declare global {
+  interface Window {
+    POLLING_INTERVAL?: number;
+  }
+}
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
   const [newMessage, setNewMessage] = useState("");
@@ -46,6 +50,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
   const isLoading = useSelector(selectChatLoading);
   const error = useSelector(selectChatError);
 
+  // Use window.POLLING_INTERVAL if set (for testing), otherwise use default
+  const pollingInterval = window.POLLING_INTERVAL || 3000;
+
   // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -59,7 +66,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
       dispatch(fetchMessages({ userId: selectedUser.id, page: 1 }));
       // We'll handle marking messages as read after we load them
     }
-  }, [selectedUser?.id, dispatch]);
+  }, [selectedUser, selectedUser?.id, dispatch]);
 
   // Intersection Observer setup
   useEffect(() => {
@@ -83,8 +90,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
     }
 
     return () => {
-      if (loadingRef.current) {
-        observer.unobserve(loadingRef.current);
+      const currentLoadingRef = loadingRef.current;
+      if (currentLoadingRef) {
+        observer.unobserve(currentLoadingRef);
       }
     };
   }, [hasMore, isLoading, selectedUser, page, dispatch]);
@@ -108,11 +116,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
     pollMessages();
 
     // Start polling
-    const intervalId = setInterval(pollMessages, POLLING_INTERVAL);
+    const intervalId = setInterval(pollMessages, pollingInterval);
 
     // Cleanup on unmount or when selectedUser changes
     return () => clearInterval(intervalId);
-  }, [selectedUser?.id, dispatch]);
+  }, [selectedUser, selectedUser?.id, dispatch, pollingInterval]);
 
   // Mark messages as read when viewing them
   useEffect(() => {
@@ -125,7 +133,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
         dispatch(markMessagesAsRead(selectedUser.id));
       }
     }
-  }, [selectedUser?.id, messages, dispatch]);
+  }, [selectedUser, selectedUser?.id, messages, dispatch]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -189,7 +197,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" data-testid="messages-container">
         <div className="p-4 space-y-4">
           {/* Loading indicator at the top */}
           <div ref={loadingRef} className="h-4 w-full">
@@ -208,11 +216,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
               <p className="text-sm text-muted-foreground">Start chatting!</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4" data-testid="message-list">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  data-testid="message-container"
+                  data-testid="message"
+                  data-read={message.read}
                   className={`flex items-center gap-3 ${message.senderId === currentUser?.id ? "flex-row-reverse" : "flex-row"}`}
                 >
                   <div className="flex-shrink-0">
@@ -262,8 +271,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onMessageSent }) => {
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
             className="flex-1"
+            data-testid="message-input"
           />
-          <Button type="submit" disabled={!newMessage.trim()}>
+          <Button
+            type="submit"
+            disabled={!newMessage.trim()}
+            data-testid="send-message-button"
+          >
             <Send className="h-4 w-4 mr-2" />
             Send
           </Button>

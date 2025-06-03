@@ -63,7 +63,7 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
   }, [searchTerm, recentChats, currentUserId]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" data-testid="chat-list">
       <div className="p-4 border-b">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -72,6 +72,7 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-8"
+            data-testid="user-search-input"
           />
         </div>
       </div>
@@ -94,6 +95,7 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
                   variant="ghost"
                   className="w-full justify-start px-2 py-6"
                   onClick={() => onSelectUser(user)}
+                  data-testid="chat-item"
                 >
                   <UserAvatar
                     user={{ profile: user.profile, email: user.email }}
@@ -130,6 +132,7 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
                   variant="ghost"
                   className="w-full justify-start px-2 py-6"
                   onClick={() => onSelectUser(user)}
+                  data-testid="chat-item"
                 >
                   <UserAvatar
                     user={{ profile: user.profile, email: user.email }}
@@ -148,7 +151,10 @@ const UserList: React.FC<UserListProps> = ({ onSelectUser, currentUserId }) => {
                       )}
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="text-xs text-muted-foreground truncate max-w-[180px]">
+                      <p
+                        className="text-xs text-muted-foreground truncate max-w-[180px]"
+                        data-testid="last-message"
+                      >
                         {user.lastMessage
                           ? user.lastMessage.content
                           : user.email}

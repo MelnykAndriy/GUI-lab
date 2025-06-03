@@ -202,7 +202,7 @@ describe("ChatInterface", () => {
       expect(headerAvatar).toHaveTextContent("SU"); // Header avatar
 
       // Find message containers by test-id
-      const messageContainers = screen.getAllByTestId("message-container");
+      const messageContainers = screen.getAllByTestId("message");
       expect(messageContainers).toHaveLength(2);
 
       // Find messages by their content
