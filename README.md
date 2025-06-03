@@ -86,7 +86,7 @@ Running with coverage
 
 ```sh
 CYPRESS_COVERAGE=true npm run test:e2e
-# then 
+# then
 
 npx nyc report --reporter=text
 ```
