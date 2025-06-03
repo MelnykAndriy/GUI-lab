@@ -5,6 +5,7 @@ A modern, real-time chat application built with React and TypeScript.
 ## Andrii Melnyk, KV-41mn
 
 [Report Lab1](https://docs.google.com/document/d/1NfeKkkB2i3yWIBUNgWBOOm8jlvlx1AUaprMCG2DE2oI/edit?usp=sharing).
+
 [Report Lab2](https://docs.google.com/document/d/1O61tKBbAkCLwtJm4CdnPTOoFHLV1JDz068VSJIzR2FA/edit?usp=sharing).
 
 ## Features
