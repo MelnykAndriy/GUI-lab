@@ -12,8 +12,8 @@
     "prepare": "husky",
     "test": "TZ=UTC vitest run",
     "test:watch": "TZ=UTC vitest",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:open": "TZ=UTC cypress open",
+    "cypress:run": "TZ=UTC cypress run",
     "test:e2e": "start-server-and-test dev :8080 cypress:run"
   },
   "dependencies": {
