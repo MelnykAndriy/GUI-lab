@@ -20,10 +20,62 @@ import {
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { RegisterData } from "@/services/authService";
 
+enum Gender {
+  MALE = "male",
+  FEMALE = "female",
+  OTHER = "other",
+}
+
 interface RegisterFormProps {
   onSubmit: (formData: RegisterData) => void;
   isLoading?: boolean;
 }
+
+interface FormFieldProps {
+  children: React.ReactNode;
+}
+
+const FormField: React.FC<FormFieldProps> = ({ children }) => (
+  <div className="space-y-2">{children}</div>
+);
+
+const validateForm = (formData: RegisterData): boolean => {
+  if (
+    !formData.name ||
+    !formData.email ||
+    !formData.password ||
+    !formData.dob
+  ) {
+    return false;
+  }
+
+  if (!formData.gender) {
+    return false;
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    return false;
+  }
+
+  // Ensure date is valid
+  const dobDate = new Date(formData.dob);
+  if (isNaN(dobDate.getTime())) {
+    return false;
+  }
+
+  return true;
+};
+
+const formatDate = (dateString: string): string => {
+  try {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  } catch (error) {
+    return dateString;
+  }
+};
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
@@ -39,16 +91,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
 
-    // Check form validity
-    if (!form.checkValidity()) {
-      // Trigger browser's default validation UI
-      return;
-    }
-
-    // Additional validation for gender
-    if (!formData.gender) {
+    if (!validateForm(formData)) {
       return;
     }
 
@@ -58,16 +102,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => {
-      // For date input, ensure the value is properly formatted
       if (name === "dob" && value) {
-        try {
-          // Ensure the date is in YYYY-MM-DD format
-          const date = new Date(value);
-          const formattedDate = date.toISOString().split("T")[0];
-          return { ...prev, [name]: formattedDate };
-        } catch (error) {
-          return prev;
-        }
+        return { ...prev, [name]: formatDate(value) };
       }
       return { ...prev, [name]: value };
     });
@@ -89,7 +125,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           className="space-y-4"
           data-testid="register-form"
         >
-          <div className="space-y-2">
+          <FormField>
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
@@ -101,8 +137,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               disabled={isLoading}
               data-testid="name-input"
             />
-          </div>
-          <div className="space-y-2">
+          </FormField>
+          <FormField>
             <Label htmlFor="gender">Gender</Label>
             <Select
               name="gender"
@@ -116,19 +152,28 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="male" data-testid="gender-option-male">
+                <SelectItem
+                  value={Gender.MALE}
+                  data-testid="gender-option-male"
+                >
                   Male
                 </SelectItem>
-                <SelectItem value="female" data-testid="gender-option-female">
+                <SelectItem
+                  value={Gender.FEMALE}
+                  data-testid="gender-option-female"
+                >
                   Female
                 </SelectItem>
-                <SelectItem value="other" data-testid="gender-option-other">
+                <SelectItem
+                  value={Gender.OTHER}
+                  data-testid="gender-option-other"
+                >
                   Other
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="space-y-2">
+          </FormField>
+          <FormField>
             <Label htmlFor="dob">Date of Birth</Label>
             <Input
               id="dob"
@@ -140,8 +185,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               disabled={isLoading}
               data-testid="dob-input"
             />
-          </div>
-          <div className="space-y-2">
+          </FormField>
+          <FormField>
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -154,8 +199,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               disabled={isLoading}
               data-testid="email-input"
             />
-          </div>
-          <div className="space-y-2">
+          </FormField>
+          <FormField>
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
@@ -167,7 +212,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               disabled={isLoading}
               data-testid="password-input"
             />
-          </div>
+          </FormField>
           <Button
             type="submit"
             className="w-full"
