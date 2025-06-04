@@ -1,4 +1,4 @@
-import { get, put, post, apiRequest } from "./api";
+import { get, put, apiRequest } from "./api";
 
 export interface UserProfile {
   name: string;
@@ -19,6 +19,10 @@ export interface UserUpdateData {
   profile?: Partial<UserProfile>;
 }
 
+export interface UploadAvatarResponse {
+  avatarUrl: string;
+}
+
 export const getCurrentUser = async (): Promise<User> => {
   return get("/api/users/me/");
 };
@@ -33,13 +37,12 @@ export const updateUser = async (data: UserUpdateData): Promise<User> => {
 
 export const uploadAvatar = async (
   file: File,
-): Promise<{ avatarUrl: string }> => {
+): Promise<UploadAvatarResponse> => {
   const formData = new FormData();
   formData.append("avatar", file);
-
   return apiRequest("/api/users/me/avatar", {
     method: "POST",
     body: formData,
-    headers: {}, // Let browser set content-type with boundary for multipart/form-data
+    headers: {},
   });
 };
