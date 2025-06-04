@@ -50,12 +50,7 @@ const StartChat: React.FC<StartChatProps> = ({ onStartChat }) => {
         required
         className="text-sm"
       />
-      <Button
-        type="submit"
-        className="w-full"
-        size="sm"
-        disabled={isLoading}
-      >
+      <Button type="submit" className="w-full" size="sm" disabled={isLoading}>
         {isLoading ? "Searching..." : "Start Chat"}
       </Button>
     </form>
