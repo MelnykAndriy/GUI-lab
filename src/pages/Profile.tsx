@@ -22,6 +22,7 @@ import {
 } from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
 import { uploadAvatar } from "@/services/userService";
+import { FILE_UPLOAD } from "@/constants/upload";
 
 interface ProfileFormState {
   id: number;
@@ -149,29 +150,24 @@ const Profile: React.FC = () => {
     if (!file) return;
 
     // Check file type
-    if (!file.type.match("image.*")) {
+    if (!file.type.match(FILE_UPLOAD.ALLOWED_TYPES.IMAGE)) {
       toast({
-        title: "Invalid File Type",
-        description: "Please select an image file.",
+        ...FILE_UPLOAD.ERROR_MESSAGES.INVALID_TYPE,
         variant: "destructive",
       });
       return;
     }
 
-    // Check file size (max 2MB)
-    if (file.size > 2 * 1024 * 1024) {
+    // Check file size
+    if (file.size > FILE_UPLOAD.MAX_SIZE) {
       toast({
-        title: "File Too Large",
-        description: "Please select an image smaller than 2MB.",
+        ...FILE_UPLOAD.ERROR_MESSAGES.FILE_TOO_LARGE,
         variant: "destructive",
       });
       return;
     }
 
-    toast({
-      title: "Uploading",
-      description: "Uploading your avatar...",
-    });
+    toast(FILE_UPLOAD.SUCCESS_MESSAGES.UPLOAD_STARTED);
 
     // Upload the file using our API service
     uploadAvatar(file)
@@ -186,19 +182,15 @@ const Profile: React.FC = () => {
           )
             .unwrap()
             .then(() => {
-              toast({
-                title: "Avatar Updated",
-                description: "Your avatar has been updated successfully.",
-              });
+              toast(FILE_UPLOAD.SUCCESS_MESSAGES.UPLOAD_COMPLETED);
             });
         }
       })
       .catch((error) => {
         console.error("Avatar upload error:", error);
         toast({
+          ...FILE_UPLOAD.ERROR_MESSAGES.UPLOAD_FAILED,
           variant: "destructive",
-          title: "Upload Failed",
-          description: "Could not upload avatar. Please try again.",
         });
       });
   };
