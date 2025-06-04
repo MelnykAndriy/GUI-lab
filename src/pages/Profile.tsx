@@ -22,7 +22,8 @@ import {
 } from "@/features/user/userSlice";
 import { AppDispatch } from "@/app/store";
 import { uploadAvatar } from "@/services/userService";
-import { FILE_UPLOAD } from "@/constants/upload";
+import { useFileUpload } from "@/hooks/useFileUpload";
+import { UploadAvatarResponse } from "@/services/userService";
 
 interface ProfileFormState {
   id: number;
@@ -60,6 +61,22 @@ const Profile: React.FC = () => {
   const currentUser = useSelector(selectUser);
   const isLoading = useSelector(selectUserLoading);
   const error = useSelector(selectUserError);
+
+  const { handleFileUpload, isUploading } = useFileUpload<UploadAvatarResponse>(
+    {
+      onUpload: uploadAvatar,
+      onSuccess: (response) => {
+        if (response.avatarUrl && userData) {
+          // Update local state
+          handleInputChange("avatarUrl", response.avatarUrl);
+          // Update in Redux/backend
+          dispatch(
+            updateUserProfile({ profile: { avatarUrl: response.avatarUrl } }),
+          );
+        }
+      },
+    },
+  );
 
   useEffect(() => {
     console.log("Profile component mounted - fetching user data");
@@ -148,51 +165,7 @@ const Profile: React.FC = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    // Check file type
-    if (!file.type.match(FILE_UPLOAD.ALLOWED_TYPES.IMAGE)) {
-      toast({
-        ...FILE_UPLOAD.ERROR_MESSAGES.INVALID_TYPE,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Check file size
-    if (file.size > FILE_UPLOAD.MAX_SIZE) {
-      toast({
-        ...FILE_UPLOAD.ERROR_MESSAGES.FILE_TOO_LARGE,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast(FILE_UPLOAD.SUCCESS_MESSAGES.UPLOAD_STARTED);
-
-    // Upload the file using our API service
-    uploadAvatar(file)
-      .then((response) => {
-        if (response && response.avatarUrl && userData) {
-          // Update local state
-          handleInputChange("avatarUrl", response.avatarUrl);
-
-          // Update in Redux/backend
-          dispatch(
-            updateUserProfile({ profile: { avatarUrl: response.avatarUrl } }),
-          )
-            .unwrap()
-            .then(() => {
-              toast(FILE_UPLOAD.SUCCESS_MESSAGES.UPLOAD_COMPLETED);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error("Avatar upload error:", error);
-        toast({
-          ...FILE_UPLOAD.ERROR_MESSAGES.UPLOAD_FAILED,
-          variant: "destructive",
-        });
-      });
+    handleFileUpload(file);
   };
 
   const triggerFileInput = () => {
@@ -268,9 +241,23 @@ const Profile: React.FC = () => {
           </div>
 
           <div className="flex flex-col gap-2 mt-4">
-            <Button variant="outline" size="sm" onClick={triggerFileInput}>
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Avatar
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={triggerFileInput}
+              disabled={isUploading}
+            >
+              {isUploading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload Avatar
+                </>
+              )}
             </Button>
             <input
               type="file"
