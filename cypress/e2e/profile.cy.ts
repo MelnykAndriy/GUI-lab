@@ -149,7 +149,7 @@ describe("Profile Page", () => {
             name: "Test User",
             gender: "male",
             dob: formattedToday, // Today's date
-            createdAt: "2024-01-01T00:00:00.000Z",
+            createdAt: "2024-01-01T12:00:00.000Z",
             avatarUrl: null,
             avatarColor: "bg-purple-500",
           },
