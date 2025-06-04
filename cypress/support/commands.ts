@@ -20,11 +20,11 @@ Cypress.Commands.add("login", (email: string, password: string) => {
       email: email,
       profile: {
         name: "Test User",
-        gender: "other",
+        gender: "male",
         dob: "1990-01-01",
         createdAt: "2024-01-01T00:00:00Z",
         avatarUrl: null,
-        avatarColor: "#3498db",
+        avatarColor: "bg-blue-500",
       },
     },
   }).as("getCurrentUser");

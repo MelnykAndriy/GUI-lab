@@ -99,27 +99,6 @@ const Profile: React.FC = () => {
         avatarColor: currentUser.profile?.avatarColor,
       };
       setUserData(formData);
-    } else if (!userData) {
-      // Try to get data from localStorage as fallback
-      const storedUserData = localStorage.getItem("currentUser");
-      if (storedUserData) {
-        try {
-          const parsedData = JSON.parse(storedUserData);
-          const formData: ProfileFormState = {
-            id: parsedData.id,
-            email: parsedData.email || "",
-            name: parsedData.profile?.name || "",
-            gender: parsedData.profile?.gender || "",
-            dob: parsedData.profile?.dob || "",
-            createdAt: parsedData.profile?.createdAt || "",
-            avatarUrl: parsedData.profile?.avatarUrl,
-            avatarColor: parsedData.profile?.avatarColor,
-          };
-          setUserData(formData);
-        } catch (e) {
-          console.error("Error parsing user data from localStorage:", e);
-        }
-      }
     }
   }, [currentUser]);
 
@@ -323,7 +302,7 @@ const Profile: React.FC = () => {
         </div>
       </div>
 
-      <Card className="mb-6">
+      <Card className="mb-6" data-testid="profile-card">
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
         </CardHeader>

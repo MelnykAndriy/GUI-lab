@@ -335,4 +335,159 @@ describe("Chat", () => {
       cy.wrap($message).should("have.attr", "data-read", "true");
     });
   });
+
+  describe("Search and Start New Chat", () => {
+    beforeEach(() => {
+      // Mock user search for new chat
+      cy.intercept("GET", "http://localhost:8000/api/users/search/**", {
+        statusCode: 200,
+        body: {
+          id: 5,
+          email: "search-test-user@example.com",
+          profile: {
+            name: "Search User",
+            avatarUrl: null,
+            avatarColor: "bg-purple-500",
+          },
+        },
+      }).as("searchNewChatUser");
+
+      // Mock empty chat messages for new chat
+      cy.intercept("GET", "http://localhost:8000/api/chats/messages/**", {
+        statusCode: 200,
+        body: {
+          messages: [],
+          pagination: {
+            total: 0,
+            pages: 1,
+            page: 1,
+            limit: 50,
+          },
+        },
+      }).as("getNewChatMessages");
+    });
+
+    it("should start a new chat with a user", () => {
+      // Click the New button in the header
+      cy.contains("button", "New").click();
+
+      // Verify the start chat form is visible
+      cy.contains("h3", "New Chat").should("be.visible");
+
+      // Type email and submit
+      const testEmail = "search@example.com";
+      cy.get('input[type="email"]').type(testEmail);
+      cy.contains("button", "Start Chat").click();
+
+      // Wait for user search and verify toast success message
+      cy.wait("@searchNewChatUser");
+      cy.contains("Started a chat with Search User").should("be.visible");
+
+      // Verify chat interface is loaded with the correct user
+      cy.contains("Search User").should("be.visible");
+      cy.get('[data-testid="message-input"]').should("be.visible");
+      cy.get('[data-testid="send-message-button"]').should("be.visible");
+
+      // Send a test message to verify chat is working
+      const message = "Hi, this is a test message!";
+      cy.get('[data-testid="message-input"]').type(message, { force: true });
+      cy.get('[data-testid="send-message-button"]').click({ force: true });
+
+      // Mock the response for the new message
+      cy.intercept("GET", "http://localhost:8000/api/chats/messages/5/**", {
+        statusCode: 200,
+        body: {
+          messages: [
+            {
+              id: 100,
+              senderId: 1, // Current user ID
+              receiverId: 5, // Search user ID
+              content: message,
+              timestamp: new Date().toISOString(),
+              read: false,
+            },
+          ],
+          pagination: {
+            total: 0,
+            pages: 1,
+            page: 1,
+            limit: 50,
+          },
+        },
+      }).as("newMessage");
+
+      // Wait for message to be sent and verify it appears
+      cy.wait("@sendMessage").then((interception) => {
+        expect(interception.request.body).to.deep.equal({
+          content: message,
+          receiverId: 5, // ID of the search user from the mock
+        });
+      });
+
+      // Wait for new message to be processed
+      cy.wait("@newMessage");
+
+      // Verify message is displayed in chat
+      cy.contains(message).should("be.visible");
+    });
+
+    it("should start a new chat with a user through search input", () => {
+      // Type email directly into the search input
+      const testEmail = "search-test-user@example.com";
+      cy.get('[data-testid="user-search-input"]').type(testEmail);
+
+      // Wait for search results
+      cy.wait("@searchNewChatUser");
+
+      // Click on the search result
+      cy.contains("Search User").click();
+
+      // Verify chat interface is loaded with the correct user
+      cy.contains("Search User").should("be.visible");
+      cy.get('[data-testid="message-input"]').should("be.visible");
+      cy.get('[data-testid="send-message-button"]').should("be.visible");
+
+      // Send a test message to verify chat is working
+      const message = "Hello via search!";
+      cy.get('[data-testid="message-input"]').type(message, { force: true });
+      cy.get('[data-testid="send-message-button"]').click({ force: true });
+
+      // Mock the response for the new message
+      cy.intercept("GET", "http://localhost:8000/api/chats/messages/5/**", {
+        statusCode: 200,
+        body: {
+          messages: [
+            {
+              id: 100,
+              senderId: 1, // Current user ID
+              receiverId: 5, // Search user ID
+              content: message,
+              timestamp: new Date().toISOString(),
+              read: false,
+            },
+          ],
+          pagination: {
+            total: 0,
+            pages: 1,
+            page: 1,
+            limit: 50,
+          },
+        },
+      }).as("newMessage");
+
+      // Wait for message to be sent and verify it appears
+      cy.wait("@sendMessage").then((interception) => {
+        expect(interception.request.body).to.deep.equal({
+          content: message,
+          receiverId: 5, // ID of the direct search user from the mock
+        });
+      });
+
+      // Wait for new message to be processed
+      cy.wait("@newMessage");
+
+      // Verify message is displayed in chat
+      cy.contains(message).should("be.visible");
+    });
+  });
 });
