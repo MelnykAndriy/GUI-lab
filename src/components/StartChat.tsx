@@ -54,7 +54,7 @@ const StartChat: React.FC<StartChatProps> = ({ onStartChat }) => {
         type="submit"
         className="w-full"
         size="sm"
-        disabled={isLoading || !email.trim()}
+        disabled={isLoading}
       >
         {isLoading ? "Searching..." : "Start Chat"}
       </Button>
